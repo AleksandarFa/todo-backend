@@ -6,7 +6,7 @@ from django.db.models.deletion import CASCADE
 
 class Todo(models.Model):
     title = models.CharField(max_length=100, blank=False)
-    description = models.TextField()
+    description = models.TextField(blank=True)
 
     LOW = "LOW"
     MED = "MED"
@@ -17,7 +17,7 @@ class Todo(models.Model):
     priority_choice = models.CharField(
         max_length=4, choices=PRIORITY_CHOICES, default=LOW)
 
-    completed = models.BooleanField()
+    completed = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
