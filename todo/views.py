@@ -1,7 +1,4 @@
-from re import M
-import re
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -11,7 +8,6 @@ from rest_framework.response import Response
 
 from .models import Todo
 from .serilizers import TodoSerializer, UserSerializer
-# Create your views here.
 
 
 class ShowAllTodos(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -54,7 +50,7 @@ class UpdateDestroyTodo(mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixin
 
     def update(self, request, pk):
         current_todo = Todo.objects.get(pk=pk)
-        print(current_todo)
+
         if (request.user == current_todo.user):
             changed_todo = TodoSerializer(current_todo, data=request.data)
             if changed_todo.is_valid():
