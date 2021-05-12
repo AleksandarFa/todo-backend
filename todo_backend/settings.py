@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # local,
     "todo.apps.TodoConfig",
     "users.apps.UsersConfig",
+    "myAuth.apps.MyAuthConfig",
 ]
 
 MIDDLEWARE = [
