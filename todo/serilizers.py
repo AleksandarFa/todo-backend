@@ -1,15 +1,11 @@
 from rest_framework import serializers
+from rest_framework.views import get_view_name
 from .models import Todo
-from django.contrib.auth.models import User
+from users.serializers import UserSerializer
 
 
 class TodoSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Todo
         fields = "__all__"
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ("first_name", "last_name",)
