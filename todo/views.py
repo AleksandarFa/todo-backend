@@ -1,5 +1,4 @@
-from users.serializers import UserSerializer
-from rest_framework import mixins, serializers, viewsets, permissions, status
+from rest_framework import mixins, viewsets, permissions, status
 from rest_framework.response import Response
 
 
@@ -27,7 +26,7 @@ class CreateTodo(mixins.UpdateModelMixin, viewsets.GenericViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class UpdateDestroyTodo(mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class RetrieveUpdateDestroyTodo(mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = TodoSerializer
 
@@ -45,11 +44,9 @@ class UpdateDestroyTodo(mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixin
         return Response(status=status.HTTP_304_NOT_MODIFIED)
 
     def update(self, request, pk):
-        current_todo = Todo.objects.get(pk=pk)
-
-        if (request.user == current_todo.user):
-            changed_todo = TodoSerializer(current_todo, data=request.data)
-            if changed_todo.is_valid():
-                changed_todo.save()
-                return Response(changed_todo.data, status=status.HTTP_200_OK)
+        serializer = TodoSerializer(data=request.data)
+        if serializer.is_valid():
+            if (request.user == serializer.validated_data['user']):
+                Todo.objects.filter(pk=pk).update(**serializer.validated_data)
+                return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_304_NOT_MODIFIED)

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ShowAllTodos, CreateTodo, UpdateDestroyTodo
+from .views import ShowAllTodos, CreateTodo, RetrieveUpdateDestroyTodo
 
 urlpatterns = [
 
@@ -7,5 +7,5 @@ urlpatterns = [
     path("create-todo/",
          CreateTodo.as_view({"post": "create"})),
     path("todos/<int:pk>/",
-         UpdateDestroyTodo.as_view({"delete": "destroy", "put": "update", "get": "retrive"})),
+         RetrieveUpdateDestroyTodo.as_view({"delete": "destroy", "put": "update", "get": "retrive"})),
 ]
