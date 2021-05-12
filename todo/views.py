@@ -1,13 +1,9 @@
-from django.contrib.auth.models import User
-from rest_framework import mixins
-from rest_framework import viewsets
-from rest_framework import permissions
-from rest_framework import status
+from rest_framework import mixins, viewsets, permissions, status
 from rest_framework.response import Response
 
 
 from .models import Todo
-from .serilizers import TodoSerializer, UserSerializer
+from .serilizers import TodoSerializer
 
 
 class ShowAllTodos(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -57,12 +53,3 @@ class UpdateDestroyTodo(mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixin
                 changed_todo.save()
                 return Response(changed_todo.data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_304_NOT_MODIFIED)
-
-
-class RetrieveUser(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = UserSerializer
-
-    def retrieve(self, request):
-        current_user = request.user
-        return Response(UserSerializer(current_user).data, status=status.HTTP_200_OK)
