@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # local,
     "todo.apps.TodoConfig",
     "users.apps.UsersConfig",
+    "my_auth.apps.MyAuthConfig",
 ]
 
 MIDDLEWARE = [
@@ -154,7 +155,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
 }
 

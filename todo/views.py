@@ -45,8 +45,8 @@ class RetrieveUpdateDestroyTodo(mixins.DestroyModelMixin, mixins.UpdateModelMixi
 
     def update(self, request, pk):
         serializer = TodoSerializer(data=request.data)
-        if serializer.is_valid():
-            if (request.user == serializer.validated_data['user']):
-                Todo.objects.filter(pk=pk).update(**serializer.validated_data)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer.is_valid(raise_exception=True)
+        if (request.user == serializer.validated_data['user']):
+            Todo.objects.filter(pk=pk).update(**serializer.validated_data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_304_NOT_MODIFIED)
