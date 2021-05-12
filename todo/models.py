@@ -18,7 +18,8 @@ class Todo(models.Model):
         max_length=4, choices=PRIORITY_CHOICES, default=LOW)
 
     completed = models.BooleanField(default=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="user",
+                             on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
